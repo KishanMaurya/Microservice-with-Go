@@ -43,7 +43,7 @@ jobs:
       - name: Run Linter
         uses: golangci/golangci-lint-action@v6
         with:
-          version: latest
+          version: v1.60.0
 
       - name: Run Tests
         run: go test ./... -v -coverprofile=coverage.out
