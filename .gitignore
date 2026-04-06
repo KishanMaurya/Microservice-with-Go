@@ -1,0 +1,12 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Sensitive files
+*.tfvars
+*.pem
+.env
+
+# AWS
+.aws/
