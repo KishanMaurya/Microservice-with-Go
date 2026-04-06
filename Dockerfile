@@ -1,31 +1,31 @@
 # ---------- Build Stage ----------
-FROM golang:1.22-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
-# Fix CGO issues
 ENV CGO_ENABLED=0
 
-# Install git (important for dependencies)
 RUN apk add --no-cache git
 
-# Copy dependency files first
+# Dependencies
 COPY go.mod go.sum ./
-RUN go mod tidy
 RUN go mod download
 
-# Copy full project
+# Source
 COPY . .
 
-# ✅ Build from cmd folder
-RUN go build -o main ./cmd
+# Build
+RUN go build -ldflags="-s -w" -o main ./cmd
 
 # ---------- Run Stage ----------
-FROM alpine:latest
+FROM alpine:3.20
 
 WORKDIR /app
 
-# Copy binary
+# Security: non-root user
+RUN adduser -D appuser
+USER appuser
+
 COPY --from=builder /app/main .
 
 EXPOSE 8080
