@@ -47,7 +47,7 @@ jobs:
     needs: ci   # ✅ IMPORTANT: only deploy if CI passes
 
     # ✅ Deploy ONLY from main branch
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout Code
